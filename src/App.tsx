@@ -1,25 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useState } from "react";
+import CreateTask from "./components/CreateTask";
+import { TodoContext, Todos } from "./utils/types";
+import "./App.css";
+import ListTask from "./components/ListTask";
+import uuid from "react-uuid";
+
+export const AppContext = createContext<TodoContext | null>(null);
 
 function App() {
+  const [todos, setTodos] = useState<Todos[]>([
+    {
+      id: "1",
+      title: "post 1",
+      status: "finished",
+    },
+    {
+      id: "2",
+      title: "post 2",
+      status: "todo",
+    },
+    {
+      id: "3",
+      title: "post 3",
+      status: "inProgress",
+    },
+  ]);
+
+  function saveTodo(title: string) {
+    const newTodo: Todos = {
+      id: uuid(),
+      title: title,
+      status: "todo",
+    };
+    setTodos([...todos, newTodo]);
+  }
+
+  function updateTodo(id: string) {
+    todos.filter((todo: Todos) => {
+      if (todo.id === id) {
+        todo.status = "done";
+        setTodos([...todos]);
+      }
+    });
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider value={{ todos, saveTodo, updateTodo }}>
+      <div>
+        <CreateTask />
+        <ListTask />
+      </div>
+    </AppContext.Provider>
   );
 }
 

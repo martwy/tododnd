@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import type { ReactNode } from 'react'
 
 export type Todos = {
   id: string;
@@ -6,8 +6,13 @@ export type Todos = {
   status: string;
 };
 
+export type Sections = {
+  status: string;
+  children?: ReactNode;
+}
+
 export type TodoContext = {
   todos: Todos[];
-  // saveTodo: (title: string) => void;
-  updateTodo: (id: string) => void;
+  saveTodo: (title: string) => void;
+  updateTodo: (id:Object, status:string) => void;
 };

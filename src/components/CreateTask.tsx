@@ -22,7 +22,7 @@ function CreateTask() {
         ></input>
         <button
           type="submit"
-          onClick={saveTodo(taskName)}
+          onClick={() => saveTodo(taskName)}
           className="border-2 border-sky-400 bg-slate-200 px-4 h-12 rounded-md"
         >
           Add
